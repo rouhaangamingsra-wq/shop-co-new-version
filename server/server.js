@@ -170,7 +170,7 @@ app.get("/api/products", async (req, res) => {
     }
     res.json(products);
   } catch (e) {
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: "Server error", detail: e.message, stack: e.stack });
   }
 });
 
