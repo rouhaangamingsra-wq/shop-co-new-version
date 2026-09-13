@@ -1,5 +1,6 @@
 // Firebase Admin SDK — Firestore connection for the Shop Co backend.
-import { initializeApp, cert, applicationDefault } from "firebase-admin/app";
+import "dotenv/config";
+import { initializeApp, cert } from "firebase-admin/app";
 import { getFirestore } from "firebase-admin/firestore";
 import fs from "fs";
 import path from "path";
@@ -7,12 +8,12 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const PROJECT_ID = "shopcoanddashbord";
-const STORAGE_BUCKET = "shopcoanddashbord.firebasestorage.app";
+const PROJECT_ID = process.env.FIREBASE_PROJECT_ID || "shopcoanddashbord";
+const STORAGE_BUCKET = process.env.FIREBASE_STORAGE_BUCKET || "shopcoanddashbord.firebasestorage.app";
+const SA_FILENAME = process.env.FIREBASE_SERVICE_ACCOUNT_PATH || "firebase-service-account.json";
 
 // Prefer a service account key file if present (downloaded from Firebase Console).
-// Place it at server/firebase-service-account.json
-const saPath = path.join(__dirname, "firebase-service-account.json");
+const saPath = path.join(__dirname, SA_FILENAME);
 
 let app;
 if (fs.existsSync(saPath)) {
@@ -26,12 +27,10 @@ if (fs.existsSync(saPath)) {
   // Fall back to GOOGLE_APPLICATION_CREDENTIALS env var or gcloud login.
   try {
     app = initializeApp({
-      credential: applicationDefault(),
       projectId: PROJECT_ID,
       storageBucket: STORAGE_BUCKET,
     });
   } catch (e) {
-    // Last resort: init without credentials (will only work if Firestore rules allow it).
     app = initializeApp({ projectId: PROJECT_ID, storageBucket: STORAGE_BUCKET });
   }
 }

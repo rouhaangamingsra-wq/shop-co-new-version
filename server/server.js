@@ -4,6 +4,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { fileURLToPath } from "url";
+import "dotenv/config";
 import { db } from "./firebase.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -95,8 +96,8 @@ app.use(express.json());
 app.use("/uploads", express.static(UPLOAD_DIR));
 
 // ---------- Auth ----------
-const ADMIN_EMAIL = "admin.shopco@gmail.com";
-const ADMIN_PASSWORD = "123456789";
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || "admin.shopco@gmail.com";
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "123456789";
 
 // Admin login (strict email + password check)
 app.post("/api/auth/admin-login", (req, res) => {
@@ -430,7 +431,7 @@ function seedCategories() {
 }
 
 // ---------- Start server (after seeding Firestore) ----------
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 seedFirestore()
   .then(() => {
     app.listen(PORT, () => console.log(`ShopCo API running on http://localhost:${PORT} (Firestore: shopcoanddashbord)`));
