@@ -432,11 +432,20 @@ function seedCategories() {
 
 // ---------- Start server (after seeding Firestore) ----------
 const PORT = process.env.PORT || 4000;
-seedFirestore()
-  .then(() => {
-    app.listen(PORT, () => console.log(`ShopCo API running on http://localhost:${PORT} (Firestore: shopcoanddashbord)`));
-  })
-  .catch((e) => {
-    console.error("Failed to seed Firestore:", e.message);
-    app.listen(PORT, () => console.log(`ShopCo API running on http://localhost:${PORT} (Firestore seed failed — check credentials)`));
-  });
+
+// Only start the HTTP server when run directly (not in Vercel serverless)
+if (!process.env.VERCEL) {
+  seedFirestore()
+    .then(() => {
+      app.listen(PORT, () => console.log(`ShopCo API running on http://localhost:${PORT} (Firestore: shopcoanddashbord)`));
+    })
+    .catch((e) => {
+      console.error("Failed to seed Firestore:", e.message);
+      app.listen(PORT, () => console.log(`ShopCo API running on http://localhost:${PORT} (Firestore seed failed — check credentials)`));
+    });
+} else {
+  // In Vercel serverless, seed without blocking
+  seedFirestore().catch((e) => console.error("Seed failed:", e.message));
+}
+
+export { app };

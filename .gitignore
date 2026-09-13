@@ -32,3 +32,6 @@ npm-debug.log*
 
 # Firestore data (local backup, not needed in repo)
 server/data/
+
+# Vercel
+.vercel/

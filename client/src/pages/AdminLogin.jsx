@@ -19,7 +19,7 @@ export default function AdminLogin() {
     setLoading(false);
     if (res?.isAdmin) {
       localStorage.setItem("shopco_admin", JSON.stringify({ email }));
-      window.location.href = "http://localhost:5174";
+      window.location.href = import.meta.env.VITE_ADMIN_URL || "http://localhost:5174";
     } else {
       setError(res?.error || "Access denied. Invalid admin credentials.");
     }

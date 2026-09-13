@@ -1,5 +1,6 @@
 // Admin API helper
-const BASE = "http://localhost:4000/api";
+// Use relative URL in production (Vercel), localhost in development
+const BASE = import.meta.env.VITE_API_BASE || "http://localhost:4000/api";
 
 async function req(path, options = {}) {
   const res = await fetch(BASE + path, {

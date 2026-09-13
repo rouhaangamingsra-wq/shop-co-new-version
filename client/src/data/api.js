@@ -1,7 +1,8 @@
 // API helper for the customer-facing site. Falls back to local data if backend is unavailable.
 import { localProducts, localCategories } from "./products";
 
-const BASE = "http://localhost:4000/api";
+// Use relative URL in production (Vercel), localhost in development
+const BASE = import.meta.env.VITE_API_BASE || "http://localhost:4000/api";
 
 async function safeFetch(path, options) {
   try {
