@@ -5,6 +5,11 @@
   "outputDirectory": "dist",
   "installCommand": "npm install && cd client && npm install && cd ../admin && npm install && cd ../server && npm install",
   "framework": null,
+  "functions": {
+    "api/index.js": {
+      "runtime": "@vercel/node@5"
+    }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/index" },
     { "source": "/admin/(.*)", "destination": "/admin/index.html" }
