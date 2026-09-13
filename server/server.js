@@ -8,8 +8,8 @@ import "dotenv/config";
 import { db } from "./firebase.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const UPLOAD_DIR = path.join(__dirname, "uploads");
-if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+const UPLOAD_DIR = process.env.VERCEL ? "/tmp/uploads" : path.join(__dirname, "uploads");
+if (!fs.existsSync(UPLOAD_DIR)) { try { fs.mkdirSync(UPLOAD_DIR, { recursive: true }); } catch (e) {} }
 
 // ---------- Firestore collection helpers ----------
 async function getAll(collection) {
@@ -433,7 +433,7 @@ function seedCategories() {
 // ---------- Start server (after seeding Firestore) ----------
 const PORT = process.env.PORT || 4000;
 
-// Only start the HTTP server when run directly (not in Vercel serverless)
+// Only start the HTTP server and seed when run locally (not in Vercel serverless)
 if (!process.env.VERCEL) {
   seedFirestore()
     .then(() => {
@@ -443,9 +443,8 @@ if (!process.env.VERCEL) {
       console.error("Failed to seed Firestore:", e.message);
       app.listen(PORT, () => console.log(`ShopCo API running on http://localhost:${PORT} (Firestore seed failed — check credentials)`));
     });
-} else {
-  // In Vercel serverless, seed without blocking
-  seedFirestore().catch((e) => console.error("Seed failed:", e.message));
 }
+// In Vercel: do NOT seed (data already exists in Firestore from local seeding)
+// Seeding on every cold start would slow down responses and may timeout
 
 export { app };
