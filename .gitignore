@@ -5,6 +5,7 @@ node_modules/
 # Build output
 client/dist/
 admin/dist/
+dist/
 
 # Environment and secrets
 server/firebase-service-account.json

@@ -2,7 +2,7 @@
 import { localProducts, localCategories } from "./products";
 
 // Use relative URL in production (Vercel), localhost in development
-const BASE = import.meta.env.VITE_API_BASE || "http://localhost:4000/api";
+const BASE = import.meta.env.VITE_API_BASE || (import.meta.env.PROD ? "/api" : "http://localhost:4000/api");
 
 async function safeFetch(path, options) {
   try {

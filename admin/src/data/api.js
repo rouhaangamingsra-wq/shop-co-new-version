@@ -1,6 +1,7 @@
 // Admin API helper
-// Use relative URL in production (Vercel), localhost in development
-const BASE = import.meta.env.VITE_API_BASE || "http://localhost:4000/api";
+// In production (Vercel), API is on the same domain at /api
+// In local dev, API runs on port 4000
+const BASE = import.meta.env.VITE_API_BASE || (import.meta.env.PROD ? "/api" : "http://localhost:4000/api");
 
 async function req(path, options = {}) {
   const res = await fetch(BASE + path, {
