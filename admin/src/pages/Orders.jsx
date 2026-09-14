@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Search, Trash2, Pencil, X } from "lucide-react";
+import { Plus, Search, Trash2, Pencil, X, ShoppingCart } from "lucide-react";
 import Card from "../components/Card";
 import { api } from "../data/api";
 
@@ -100,7 +100,17 @@ export default function Orders() {
                   </td>
                 </tr>
               ))}
-              {!filtered.length && <tr><td colSpan={7} className="px-5 py-8 text-center text-brand-muted">No orders found.</td></tr>}
+              {!filtered.length && (
+                <tr>
+                  <td colSpan={7} className="px-5 py-16 text-center">
+                    <div className="flex flex-col items-center gap-2 text-brand-muted">
+                      <ShoppingCart size={40} className="opacity-30" />
+                      <p className="text-sm font-medium">No orders yet</p>
+                      <p className="text-xs">When customers place orders on the storefront, they will appear here.</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

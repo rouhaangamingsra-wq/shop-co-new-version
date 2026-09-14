@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus, Search, Trash2, Pencil, X } from "lucide-react";
+import { Plus, Search, Trash2, Pencil, X, Users as UsersIcon } from "lucide-react";
 import Card from "../components/Card";
 import { api } from "../data/api";
 
@@ -86,7 +86,17 @@ export default function Users() {
                   </td>
                 </tr>
               ))}
-              {!filtered.length && <tr><td colSpan={6} className="px-5 py-8 text-center text-brand-muted">No users found.</td></tr>}
+              {!filtered.length && (
+                <tr>
+                  <td colSpan={6} className="px-5 py-16 text-center">
+                    <div className="flex flex-col items-center gap-2 text-brand-muted">
+                      <UsersIcon size={40} className="opacity-30" />
+                      <p className="text-sm font-medium">No users yet</p>
+                      <p className="text-xs">When customers sign up, they will appear here.</p>
+                    </div>
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>

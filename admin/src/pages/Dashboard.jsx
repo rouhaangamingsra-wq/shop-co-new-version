@@ -54,10 +54,10 @@ export default function Dashboard() {
     <div className="space-y-6">
       {/* Stats */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard icon={DollarSign} label="Total Revenue" value={stats ? `$${stats.revenue.toLocaleString()}` : "—"} change="+12.5%" color="#6C4DFF" />
-        <StatCard icon={ShoppingCart} label="Total Orders" value={stats?.orders ?? "—"} change="+8.2%" color="#0EA5E9" />
-        <StatCard icon={Package} label="Products" value={stats?.products ?? "—"} change="+3.1%" color="#16A34A" />
-        <StatCard icon={Users} label="Customers" value={stats?.users ?? "—"} change="+5.4%" color="#F59E0B" />
+        <StatCard icon={DollarSign} label="Total Revenue" value={stats ? `$${stats.revenue.toLocaleString()}` : "—"} change={stats?.revenue ? "+0%" : "—"} color="#6C4DFF" />
+        <StatCard icon={ShoppingCart} label="Total Orders" value={stats?.orders ?? "—"} change={stats?.orders ? "+0%" : "—"} color="#0EA5E9" />
+        <StatCard icon={Package} label="Products" value={stats?.products ?? "—"} change={stats?.products ? "+0%" : "—"} color="#16A34A" />
+        <StatCard icon={Users} label="Customers" value={stats?.users ?? "—"} change={stats?.users ? "+0%" : "—"} color="#F59E0B" />
       </div>
 
       {/* Chart */}
@@ -125,7 +125,14 @@ export default function Dashboard() {
                   </tr>
                 ))}
                 {!stats?.recentOrders?.length && (
-                  <tr><td colSpan={4} className="py-6 text-center text-brand-muted">Loading…</td></tr>
+                  <tr>
+                    <td colSpan={4} className="py-10 text-center">
+                      <div className="flex flex-col items-center gap-1 text-brand-muted">
+                        <ShoppingCart size={32} className="opacity-30" />
+                        <p className="text-sm">No orders yet</p>
+                      </div>
+                    </td>
+                  </tr>
                 )}
               </tbody>
             </table>
@@ -149,7 +156,10 @@ export default function Dashboard() {
               </div>
             ))}
             {!stats?.recentUsers?.length && (
-              <p className="text-center text-sm text-brand-muted">Loading…</p>
+              <div className="flex flex-col items-center gap-2 py-6 text-center">
+                <Users size={32} className="text-brand-muted opacity-30" />
+                <p className="text-sm text-brand-muted">No customers yet</p>
+              </div>
             )}
           </div>
         </Card>

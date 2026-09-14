@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Search, Trash2, Pencil, X } from "lucide-react";
+import { Search, Trash2, Pencil, X, UserCircle } from "lucide-react";
 import Card from "../components/Card";
 import { api } from "../data/api";
 
@@ -70,7 +70,15 @@ export default function Customers() {
             </div>
           </Card>
         ))}
-        {!filtered.length && <p className="text-brand-muted">No customers found.</p>}
+        {!filtered.length && (
+          <Card className="col-span-full flex flex-col items-center gap-3 py-16 text-center">
+            <UserCircle size={48} className="text-brand-muted opacity-30" />
+            <div>
+              <p className="text-sm font-medium text-brand-muted">No customers yet</p>
+              <p className="text-xs text-brand-muted mt-1">When customers sign up on the storefront, they will appear here.</p>
+            </div>
+          </Card>
+        )}
       </div>
 
       {editing && form && (

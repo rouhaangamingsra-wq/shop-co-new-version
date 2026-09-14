@@ -52,23 +52,8 @@ async function seedFirestore() {
     console.log(`Seeded ${products.length} products to Firestore`);
   }
 
-  const usersSnap = await db.collection("users").limit(1).get();
-  if (usersSnap.empty) {
-    const users = seedUsers();
-    const batch = db.batch();
-    users.forEach((u) => batch.set(db.collection("users").doc(u.id), u));
-    await batch.commit();
-    console.log(`Seeded ${users.length} users to Firestore`);
-  }
-
-  const ordersSnap = await db.collection("orders").limit(1).get();
-  if (ordersSnap.empty) {
-    const orders = seedOrders();
-    const batch = db.batch();
-    orders.forEach((o) => batch.set(db.collection("orders").doc(o.id), o));
-    await batch.commit();
-    console.log(`Seeded ${orders.length} orders to Firestore`);
-  }
+  // NOTE: Users and orders are NOT seeded — only real signups and orders appear.
+  // Collections start empty and fill up as customers sign up and place orders.
 
   const catsSnap = await db.collection("categories").limit(1).get();
   if (catsSnap.empty) {
